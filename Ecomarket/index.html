@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMarket - Sustainable Products Marketplace</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>🌱 EcoMarket</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="/cart/">Cart (<span id="cart-count">0</span>)</a>
+                <a href="/account/">Account</a>
+                <a href="/login/" id="login-link">Login</a>
+                <a href="/signup/" id="signup-link">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Shop Sustainable, Live Better</h2>
+            <p>Discover eco-friendly products that make a difference</p>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search for eco-friendly products...">
+                <button id="search-btn">🔍 Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container products-page-container">
+            <div class="products-layout">
+                <aside class="filters-sidebar" id="filters-sidebar" aria-label="Product filters">
+                    <div class="filters-sidebar-header">
+                        <h3 class="filters-title">Filters</h3>
+                        <button type="button" class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters-panel">
+                            <span class="filters-toggle-text">Show filters</span>
+                        </button>
+                    </div>
+                    <div class="filters-panel" id="filters-panel">
+                        <div class="filter-block">
+                            <h4 class="filter-block-title">Category</h4>
+                            <div id="filter-categories" class="filter-radio-list"></div>
+                        </div>
+                        <div class="filter-block">
+                            <h4 class="filter-block-title">Price</h4>
+                            <div id="filter-price-presets" class="filter-chips"></div>
+                            <div class="filter-price-custom">
+                                <span class="filter-price-labels">
+                                    <label>Min <input type="number" id="price-min" class="filter-price-input" min="0" step="1" placeholder="₹" inputmode="numeric" /></label>
+                                    <label>Max <input type="number" id="price-max" class="filter-price-input" min="0" step="1" placeholder="₹" inputmode="numeric" /></label>
+                                </span>
+                                <button type="button" class="filter-apply-btn" id="price-apply-btn">Apply</button>
+                            </div>
+                        </div>
+                        <button type="button" class="clear-filters-btn" id="clear-filters-btn">Clear all</button>
+                    </div>
+                </aside>
+                <div class="products-main">
+                    <h2 class="section-title section-title-left">Featured Eco-Friendly Products</h2>
+                    <p class="products-result-meta" id="products-result-meta"></p>
+                    <div id="products-grid" class="products-grid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Methods Section -->
+    <section class="payment-methods">
+        <div class="container">
+            <h2 class="section-title">Accepted Payment Methods</h2>
+            <div class="payment-icons">
+                <div class="payment-method">
+                    <div class="payment-icon">💳</div>
+                    <p>Credit/Debit Cards</p>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">📱</div>
+                    <p>UPI</p>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">🏦</div>
+                    <p>Net Banking</p>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">💵</div>
+                    <p>Cash on Delivery</p>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">📲</div>
+                    <p>Digital Wallets</p>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">🏪</div>
+                    <p>Bank Transfer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 EcoMarket. All rights reserved. 🌍</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

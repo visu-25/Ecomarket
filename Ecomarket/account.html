@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - EcoMarket</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>🌱 EcoMarket</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/cart/">Cart (<span id="cart-count">0</span>)</a>
+                <a href="/account/" class="active">Account</a>
+                <a href="/login/" id="login-link">Login</a>
+                <a href="/signup/" id="signup-link">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="account-section" id="account-page">
+        <div class="container">
+            <h2 class="section-title account-page-title">My account</h2>
+            <p class="account-intro">Update your profile, manage delivery addresses, and view past orders.</p>
+
+            <div class="account-tabs" role="tablist">
+                <button type="button" class="account-tab is-active" data-tab="profile" role="tab" aria-selected="true">Profile</button>
+                <button type="button" class="account-tab" data-tab="addresses" role="tab" aria-selected="false">Addresses</button>
+                <button type="button" class="account-tab" data-tab="orders" role="tab" aria-selected="false">Orders</button>
+            </div>
+
+            <div id="account-message" class="message" style="display: none;"></div>
+
+            <div id="tab-profile" class="account-panel" role="tabpanel">
+                <div class="account-card">
+                    <h3>Account information</h3>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="profile-email">Email</label>
+                            <input type="email" id="profile-email" disabled autocomplete="username">
+                            <p class="field-hint">This is your login. Changing it is not supported in the storefront yet.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-name">Display name <span class="req">*</span></label>
+                            <input type="text" id="profile-name" name="name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-phone">Phone</label>
+                            <input type="text" id="profile-phone" name="phone" autocomplete="tel">
+                        </div>
+                        <button type="submit" class="btn-primary">Save changes</button>
+                    </form>
+
+                    <div class="account-logout-block">
+                        <div class="account-logout-divider" aria-hidden="true"></div>
+                        <p class="account-logout-lead">Done for now?</p>
+                        <button type="button" id="account-logout-btn" class="btn-account-logout">
+                            <span class="btn-account-logout-icon" aria-hidden="true">🚪</span>
+                            Sign out of EcoMarket
+                        </button>
+                        <p class="account-logout-hint">You’ll need to sign in again to place orders or view saved addresses.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-addresses" class="account-panel is-hidden" role="tabpanel">
+                <div class="account-card">
+                    <h3>Saved addresses</h3>
+                    <div id="account-address-list" class="account-address-list"></div>
+
+                    <h4 class="account-subheading">Add a new address</h4>
+                    <form id="account-new-address-form" class="address-form-compact">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="acc-addr-label">Label (optional)</label>
+                                <input type="text" id="acc-addr-label" name="label" placeholder="Home, Office…" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="acc-addr-full-name">Full name <span class="req">*</span></label>
+                                <input type="text" id="acc-addr-full-name" name="full_name" required autocomplete="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acc-addr-line1">Address line 1 <span class="req">*</span></label>
+                            <input type="text" id="acc-addr-line1" name="line1" required autocomplete="address-line1">
+                        </div>
+                        <div class="form-group">
+                            <label for="acc-addr-line2">Address line 2</label>
+                            <input type="text" id="acc-addr-line2" name="line2" autocomplete="address-line2">
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="acc-addr-city">City <span class="req">*</span></label>
+                                <input type="text" id="acc-addr-city" name="city" required autocomplete="address-level2">
+                            </div>
+                            <div class="form-group">
+                                <label for="acc-addr-state">State <span class="req">*</span></label>
+                                <input type="text" id="acc-addr-state" name="state" required autocomplete="address-level1">
+                            </div>
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="acc-addr-postal">Postal code <span class="req">*</span></label>
+                                <input type="text" id="acc-addr-postal" name="postal_code" required autocomplete="postal-code">
+                            </div>
+                            <div class="form-group">
+                                <label for="acc-addr-country">Country</label>
+                                <input type="text" id="acc-addr-country" name="country" value="India" autocomplete="country-name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acc-addr-phone">Phone (optional)</label>
+                            <input type="text" id="acc-addr-phone" name="phone" autocomplete="tel">
+                        </div>
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="acc-addr-is-default" name="is_default">
+                            <span>Set as default address</span>
+                        </label>
+                        <button type="submit" class="btn-primary">Save address</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="tab-orders" class="account-panel is-hidden" role="tabpanel">
+                <div class="account-card account-card--orders">
+                    <h3>Order history</h3>
+                    <div id="account-orders-list" class="account-orders-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="address-edit-modal" class="modal-overlay is-hidden" aria-hidden="true">
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="address-edit-title">
+            <button type="button" class="modal-close" id="address-edit-close" aria-label="Close">&times;</button>
+            <h3 id="address-edit-title">Edit address</h3>
+            <form id="address-edit-form">
+                <input type="hidden" id="edit-address-id" name="id">
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="edit-addr-label">Label (optional)</label>
+                        <input type="text" id="edit-addr-label" name="label" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-addr-full-name">Full name <span class="req">*</span></label>
+                        <input type="text" id="edit-addr-full-name" name="full_name" required autocomplete="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-addr-line1">Address line 1 <span class="req">*</span></label>
+                    <input type="text" id="edit-addr-line1" name="line1" required autocomplete="address-line1">
+                </div>
+                <div class="form-group">
+                    <label for="edit-addr-line2">Address line 2</label>
+                    <input type="text" id="edit-addr-line2" name="line2" autocomplete="address-line2">
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="edit-addr-city">City <span class="req">*</span></label>
+                        <input type="text" id="edit-addr-city" name="city" required autocomplete="address-level2">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-addr-state">State <span class="req">*</span></label>
+                        <input type="text" id="edit-addr-state" name="state" required autocomplete="address-level1">
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="edit-addr-postal">Postal code <span class="req">*</span></label>
+                        <input type="text" id="edit-addr-postal" name="postal_code" required autocomplete="postal-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-addr-country">Country</label>
+                        <input type="text" id="edit-addr-country" name="country" autocomplete="country-name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-addr-phone">Phone (optional)</label>
+                    <input type="text" id="edit-addr-phone" name="phone" autocomplete="tel">
+                </div>
+                <label class="checkbox-row">
+                    <input type="checkbox" id="edit-addr-is-default" name="is_default">
+                    <span>Set as default address</span>
+                </label>
+                <button type="submit" class="btn-primary">Update address</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 EcoMarket. All rights reserved. 🌍</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

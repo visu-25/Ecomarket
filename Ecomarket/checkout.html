@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - EcoMarket</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>🌱 EcoMarket</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/cart/">Cart (<span id="cart-count">0</span>)</a>
+                <a href="/account/">Account</a>
+                <a href="/login/" id="login-link">Login</a>
+                <a href="/signup/" id="signup-link">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="checkout-section">
+        <div class="container checkout-layout">
+            <div id="checkout-flow">
+                <h2 class="section-title">Checkout</h2>
+
+                <div class="checkout-steps" role="navigation" aria-label="Checkout progress">
+                    <span class="checkout-step is-active" id="step-indicator-address">1. Delivery address</span>
+                    <span class="checkout-step" id="step-indicator-payment">2. Payment</span>
+                </div>
+
+                <div id="checkout-message" class="message" style="display: none;"></div>
+
+                <div id="checkout-step-address" class="checkout-panel">
+                    <h3 class="checkout-panel-title">Ship to</h3>
+                    <p class="checkout-hint">Select a saved address or add a new one. You need at least one delivery address to continue.</p>
+                    <div id="address-list" class="address-list"></div>
+
+                    <div class="address-form-card">
+                        <h4>Add new address</h4>
+                        <form id="new-address-form">
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="addr-label">Label (optional)</label>
+                                    <input type="text" id="addr-label" name="label" placeholder="Home, Office…" autocomplete="section-shipping shipping address-line3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-full-name">Full name <span class="req">*</span></label>
+                                    <input type="text" id="addr-full-name" name="full_name" required autocomplete="name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addr-line1">Address line 1 <span class="req">*</span></label>
+                                <input type="text" id="addr-line1" name="line1" required autocomplete="address-line1">
+                            </div>
+                            <div class="form-group">
+                                <label for="addr-line2">Address line 2</label>
+                                <input type="text" id="addr-line2" name="line2" autocomplete="address-line2">
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="addr-city">City <span class="req">*</span></label>
+                                    <input type="text" id="addr-city" name="city" required autocomplete="address-level2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-state">State <span class="req">*</span></label>
+                                    <input type="text" id="addr-state" name="state" required autocomplete="address-level1">
+                                </div>
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="addr-postal">Postal code <span class="req">*</span></label>
+                                    <input type="text" id="addr-postal" name="postal_code" required autocomplete="postal-code">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-country">Country</label>
+                                    <input type="text" id="addr-country" name="country" value="India" autocomplete="country-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addr-phone">Phone (optional)</label>
+                                <input type="text" id="addr-phone" name="phone" autocomplete="tel">
+                            </div>
+                            <label class="checkbox-row">
+                                <input type="checkbox" id="addr-is-default" name="is_default">
+                                <span>Set as default address</span>
+                            </label>
+                            <button type="submit" class="btn-primary">Save address</button>
+                        </form>
+                    </div>
+
+                    <div class="checkout-actions">
+                        <a href="/cart/" class="btn-secondary">← Back to cart</a>
+                        <button type="button" id="checkout-continue-address" class="btn-primary btn-large">Continue to payment</button>
+                    </div>
+                </div>
+
+                <div id="checkout-step-payment" class="checkout-panel is-hidden">
+                    <h3 class="checkout-panel-title">Payment method</h3>
+                    <p class="checkout-hint">Choose how you would like to pay. Payment gateway connection can be added later.</p>
+
+                    <div class="payment-options" role="radiogroup" aria-label="Payment method">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cod" checked>
+                            <span>Cash on delivery (COD)</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="card">
+                            <span>Credit / debit card</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="upi">
+                            <span>UPI</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="netbanking">
+                            <span>Net banking</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="wallet">
+                            <span>Wallet</span>
+                        </label>
+                    </div>
+
+                    <div id="checkout-delivery-review" class="delivery-review"></div>
+
+                    <div class="checkout-actions">
+                        <button type="button" id="checkout-back-payment" class="btn-secondary">← Back to address</button>
+                        <button type="button" id="checkout-place-order" class="btn-primary btn-large">Place order</button>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="checkout-summary-sidebar">
+                <div class="summary-card">
+                    <h3>Order summary</h3>
+                    <div id="checkout-cart-lines" class="checkout-cart-lines"></div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="checkout-subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="checkout-total">₹0</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 EcoMarket. All rights reserved. 🌍</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+</body>
+</html>

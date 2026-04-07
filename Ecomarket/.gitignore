@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+
+# local env files (keep secrets out of git)
+.env
+*.env
