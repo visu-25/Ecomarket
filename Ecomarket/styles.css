@@ -604,6 +604,22 @@ body {
     text-decoration: underline;
 }
 
+.forgot-password-container {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.forgot-password-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
 .message {
     margin-top: 1rem;
     padding: 12px;

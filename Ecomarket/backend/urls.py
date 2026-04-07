@@ -43,6 +43,10 @@ urlpatterns = [
     # Serve CSS and JS files from root
     path('styles.css', views.serve_css, name='styles'),
     path('script.js', views.serve_js, name='script'),
+    path('api/forgot-password/', accounts_views.forgot_password_api, name='forgot_password_api'),
+    path('api/reset-password/', accounts_views.reset_password_api, name='reset_password_api'),
+    path('forgot-password/', views.forgot_password_view, name='forgot_password'),
+    path('reset-password/', views.reset_password_view, name='reset_password'),
 ]
 
 # Serve static files during development

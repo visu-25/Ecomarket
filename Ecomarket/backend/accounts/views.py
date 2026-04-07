@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_POST
 
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import AccountProfile, UserAddress
 
 
@@ -281,3 +283,75 @@ def address_detail_api(request, pk: int):
 
     address.refresh_from_db()
     return JsonResponse(_address_to_json(address), status=200)
+
+
+@csrf_exempt
+@require_POST
+def forgot_password_api(request):
+    """
+    Simulate sending a reset password link via email (it will show in the terminal).
+    { email }
+    """
+    data = _get_json_body(request)
+    if data is None:
+        return JsonResponse({"error": "Invalid JSON body"}, status=400)
+
+    email = (data.get("email") or "").strip().lower()
+    if not email:
+        return JsonResponse({"error": "email is required"}, status=400)
+
+    user = User.objects.filter(email=email).first()
+    if user:
+        # Pass the email to the reset link to identify the user later
+        reset_link = f"http://127.0.0.1:8000/reset-password/?email={email}&token=demo-token"
+        message = (
+            f"Hello {user.first_name or user.username},\n\n"
+            "You requested a password reset. Click the link below to reset your password:\n\n"
+            f"{reset_link}\n\n"
+            "If you didn't request this, please ignore this email."
+        )
+        from_email = settings.DEFAULT_FROM_EMAIL
+        subject = "EcoMarket - Password Reset Request"
+        try:
+            send_mail(subject, message, from_email, [email], fail_silently=False)
+        except Exception as e:
+            # Check server logs for exact error if it fails even in console mode
+            print(f"Failed to send email: {e}")
+
+    # Return a generic success message for security to avoid email enumeration
+    return JsonResponse(
+        {"message": "A reset link has been sent to your email (if registered). Check your terminal for the email output."},
+        status=200
+    )
+
+
+@csrf_exempt
+@require_POST
+def reset_password_api(request):
+    """
+    Actually reset the password in the database.
+    { email, token, password }
+    """
+    data = _get_json_body(request)
+    if data is None:
+        return JsonResponse({"error": "Invalid JSON body"}, status=400)
+
+    email = data.get("email")
+    password = data.get("password")
+    
+    if not email:
+        # Should we generic here? For now, we'll keep it simple for testing.
+        return JsonResponse({"error": "User identity (email) is missing from the request."}, status=400)
+    if not password or len(password) < 6:
+        return JsonResponse({"error": "Password must be at least 6 characters"}, status=400)
+
+    user = User.objects.filter(email=email).first()
+    if not user:
+        return JsonResponse({"error": "User not found."}, status=404)
+
+    # In a real production app, you would also validate the 'token'
+    # For this demo, we'll proceed with the password change.
+    user.set_password(password)
+    user.save()
+    
+    return JsonResponse({"message": "Your password has been successfully updated. Please login again."}, status=200)

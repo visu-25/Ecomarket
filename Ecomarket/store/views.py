@@ -205,6 +205,14 @@ def product_details(request):
     """Serve the product details page"""
     return render(request, 'product-details.html')
 
+def forgot_password_view(request):
+    """Serve the forgot password page"""
+    return render(request, 'forgot-password.html')
+
+def reset_password_view(request):
+    """Serve the reset password page"""
+    return render(request, 'reset-password.html')
+
 def serve_css(request):
     """Serve styles.css file"""
     css_path = os.path.join(settings.BASE_DIR, 'styles.css')
